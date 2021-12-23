@@ -2,8 +2,8 @@
 
 namespace Project.Models
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser
     {
-
+        public string? MyProperty { get; set; }
     }
 }
