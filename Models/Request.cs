@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#nullable disable
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Models
 {
@@ -14,13 +15,13 @@ namespace Project.Models
         public int QuantityRequest { get; set; }
         [Display(Name ="Total Amount")]
         public int TotalAmount { get; set; }
-        public string? Justification { get; set; }
-        public string? Note { get; set; }
+        public string Justification { get; set; }
+        public string Note { get; set; }
         public Status RequestStatus { get; set; }
-        public Product? Product { get; set; }
+        public Product Product { get; set; }
     }
     public enum Status
     {
-        PENDING, APPROVED, REJECTED
+        PENDING, PARTIAL,APPROVED, REJECTED
     }
 }

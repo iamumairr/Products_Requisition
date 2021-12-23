@@ -1,32 +1,29 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Models;
 
 namespace Project.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _WebHostEnvironment = webHostEnvironment;
         }
 
-        // GET: Products
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
         }
 
-        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,29 +40,38 @@ namespace Project.Controllers
 
             return View(product);
         }
-
-        // GET: Products/Create
+        // GET: Products/Create/
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Description,StockQuantity,UnitaryAmount,Level,Image")] Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
+                string rootPath = _WebHostEnvironment.WebRootPath;
+                string path = @"\Uploads\";
+
+                string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
+                string extension = Path.GetExtension(product.ImageFile.FileName);
+
+                product.Image = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
+
+                string pathforSave = Path.Combine(rootPath + path + fileName);
+                using (var fileStream = new FileStream(pathforSave, FileMode.Create))
+                {
+                    product.ImageFile.CopyTo(fileStream);
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
-
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -83,11 +89,9 @@ namespace Project.Controllers
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Description,StockQuantity,UnitaryAmount,Level,Image")] Product product)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
             if (id != product.ProductId)
             {
@@ -98,6 +102,35 @@ namespace Project.Controllers
             {
                 try
                 {
+                    var objfromDb = _context.Products.AsNoTracking().FirstOrDefault(a => a.ProductId == id);
+
+                    if (product.ImageFile != null)
+                    {
+                        string rootPath = _WebHostEnvironment.WebRootPath;
+                        string path = @"\Uploads\";
+
+                        string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
+                        string extension = Path.GetExtension(product.ImageFile.FileName);
+
+                        product.Image = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
+
+                        string pathforSave = Path.Combine(rootPath + path + fileName);
+
+                        var oldImage = Path.Combine(rootPath + path, objfromDb.Image);
+                        if (System.IO.File.Exists(oldImage))
+                        {
+                            System.IO.File.Delete(oldImage);
+                        }
+
+                        using (var fileStream = new FileStream(pathforSave, FileMode.Create))
+                        {
+                            product.ImageFile.CopyTo(fileStream);
+                        }
+                    }
+                    else
+                    {
+                        product.Image = objfromDb.Image;
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }

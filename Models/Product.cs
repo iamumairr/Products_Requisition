@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#nullable disable
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project.Models
 {
@@ -7,9 +9,9 @@ namespace Project.Models
         [Key]
         public int ProductId { get; set; }
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [Required]
         [Display(Name ="Stock Quantity")]
         public int StockQuantity { get; set; }
@@ -18,12 +20,17 @@ namespace Project.Models
         public int UnitaryAmount { get; set; }
         [Required]
         public Level Level { get; set; }
+        public string Image { get; set; }
+
+        [Display(Name = "Image")]
         [Required]
-        public byte[]? Image { get; set; }
-        public ICollection<Request>? Requests { get; set; }
+        [NotMapped]
+        [DataType(DataType.Upload)]
+        public IFormFile ImageFile { get; set; }
+        public ICollection<Request> Requests { get; set; }
     }
     public enum Level
     {
-        level0,level1,level2
+        Zero,One,Two
     }
 }

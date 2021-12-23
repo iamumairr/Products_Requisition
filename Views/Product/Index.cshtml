@@ -5,63 +5,69 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitaryAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Level)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StockQuantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UnitaryAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Level)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-12">
+        <h1 class="text-center text-info">Our Products</h1>
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <a asp-action="Create" class="btn btn-success float-end">Create New</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            @if (Model != null)
+            {
+                if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <label class="fw-bold">Name:<span class="float-end">@item.Name</span></label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="fw-bold">
+                                            Available in Stock:
+                                            @if (item.StockQuantity > 0)
+                                            {
+                                                <span class="float-end">Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="float-end">No</span>
+                                            }
+                                        </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="fw-bold">Unitary Amount:<span class="float-end">@item.UnitaryAmount</span></label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="fw-bold">Level:<span class="float-end">@item.Level</span></label>
+                                    </div>
+                                    <div class="row border p-1">
+                                        <img src="~/Uploads/@item.Image" />
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 d-flex align-item-center justify-content-center">
+                                            <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary mx-1">Edit</a>
+                                            <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-sm btn-success mx-1">Details</a>
+                                            <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger mx-1">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center">
+                        No records found. Please add a record.
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

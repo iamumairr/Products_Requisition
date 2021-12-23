@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿#nullable disable
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 
@@ -10,7 +11,7 @@ namespace Project.Data
         {
 
         }
-        public DbSet<Product>? Products { get; set; }
-        public DbSet<Request>? Requests { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Request> Requests { get; set; }
     }
 }
