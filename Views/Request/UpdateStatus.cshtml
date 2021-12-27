@@ -1,0 +1,27 @@
+﻿@model Project.Models.Request
+@{
+    ViewData["Title"] = "UpdateStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center text-info">Update Request Status</h1>
+        <hr />
+        <form asp-action="UpdateStatus">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RequestId" />
+            <div class="form-group">
+                <label asp-for="RequestStatus" class="control-label"></label>
+                <select asp-for="RequestStatus" class="form-select" asp-items="Html.GetEnumSelectList<Status>()"></select>
+                <span asp-validation-for="RequestStatus" class="text-danger"></span>
+            </div>
+            <div class="row mt-3">
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-primary btn-sm" />
+                    <a asp-action="Index" class="btn btn-warning btn-sm">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

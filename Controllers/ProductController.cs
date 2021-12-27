@@ -18,12 +18,12 @@ namespace Project.Controllers
             _context = context;
             _WebHostEnvironment = webHostEnvironment;
         }
-
+        [Authorize(Roles ="Admin,Coordinator,Employee")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin,Coordinator,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,12 +40,14 @@ namespace Project.Controllers
 
             return View(product);
         }
+        [Authorize(Roles = "Admin")]
         // GET: Products/Create/
         public IActionResult Create()
         {
             return View();
         }
         // POST: Product/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
@@ -73,6 +75,7 @@ namespace Project.Controllers
             return View(product);
         }
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +94,7 @@ namespace Project.Controllers
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Product product)
         {
             if (id != product.ProductId)
@@ -151,6 +155,7 @@ namespace Project.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,6 +175,7 @@ namespace Project.Controllers
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

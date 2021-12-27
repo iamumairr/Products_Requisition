@@ -1,0 +1,29 @@
+﻿@model Project.Models.Request
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="text-info text-center">Delete Request</h1>
+        <hr />
+        <h4 class="text-warning text-center">Are you sure you want to delete this?</h4>
+            <div class="row d-flex align-item-center justify-content-center">
+            <div class="col-4 text-center">
+                <label class="fw-bold">Request Id:  @Model?.RequestId</label>
+                <br />
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="RequestId" />
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+                            <a asp-action="Index" class="btn btn-warning btn-sm">Back to List</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

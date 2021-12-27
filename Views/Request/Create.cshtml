@@ -1,0 +1,61 @@
+﻿@model Project.Models.Request
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-12">
+        <h1 class="text-center text-info">Add Request</h1>
+        <hr />
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="ApplicationUserId" />
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-6">
+                    <div class="card p-2 shadow-sm">
+                        <label class="text-center fw-bolder mb-2">@Model?.Product.Name</label>
+                        <img src="~/Uploads/@Model?.Product.Image" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="QuantityRequest" class="control-label"></label>
+                        <input asp-for="QuantityRequest" class="form-control" />
+                        <span asp-validation-for="QuantityRequest" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Justification" class="control-label"></label>
+                        <input asp-for="Justification" class="form-control" />
+                        <span asp-validation-for="Justification" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Note" class="control-label"></label>
+                        <input asp-for="Note" class="form-control" />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12 d-flex align-item-center justify-content-center">
+                    <input type="submit" value="Add Request" class="btn btn-primary btn-sm mx-1" />
+                    <a asp-action="Index" asp-controller="Product" class="btn btn-warning btn-sm mx-1">Back to Products</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿#nullable disable
+using Microsoft.AspNetCore.Identity;
 
 namespace Project.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser:IdentityUser
     {
-        public string? MyProperty { get; set; }
+        public ICollection<Request> Requests { get; set; }
     }
 }

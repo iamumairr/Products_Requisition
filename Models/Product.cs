@@ -9,6 +9,7 @@ namespace Project.Models
         [Key]
         public int ProductId { get; set; }
         [Required]
+        [StringLength(100)]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }

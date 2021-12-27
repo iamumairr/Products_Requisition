@@ -9,11 +9,14 @@
     <div class="col-12">
         <h1 class="text-center text-info">Our Products</h1>
         <hr />
-        <div class="row">
-            <div class="col-12">
-                <a asp-action="Create" class="btn btn-success float-end">Create New</a>
+        @if (User.IsInRole(WC.AdminRole))
+        {
+            <div class="row">
+                <div class="col-12">
+                    <a asp-action="Create" class="btn btn-success float-end">Create New</a>
+                </div>
             </div>
-        </div>
+        }
         <div class="row mt-2">
             @if (Model != null)
             {
@@ -51,9 +54,15 @@
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-12 d-flex align-item-center justify-content-center">
-                                            <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary mx-1">Edit</a>
+                                            @if (User.IsInRole(WC.AdminRole))
+                                            {
+                                                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary mx-1">Edit</a>
+                                            }
                                             <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-sm btn-success mx-1">Details</a>
-                                            <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger mx-1">Delete</a>
+                                            @if (User.IsInRole(WC.AdminRole))
+                                            {
+                                                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger mx-1">Delete</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
