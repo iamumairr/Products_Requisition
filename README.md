@@ -1,6 +1,6 @@
 # Products_Requisition
 This an Asp.Net Core Web Application, in which a user can view the products, and make a requisition request. 
-Admin/Cordinators can approve all those requests according to their level of Authorization.
+Admin/Coordinators can approve all those requests according to their level of Authorization.
 
 Want to use this web app?
 
