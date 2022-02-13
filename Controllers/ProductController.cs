@@ -18,7 +18,7 @@ namespace Project.Controllers
             _context = context;
             _WebHostEnvironment = webHostEnvironment;
         }
-        [Authorize(Roles ="Admin,Coordinator,Employee")]
+        [Authorize(Roles = "Admin,Coordinator,Employee")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());

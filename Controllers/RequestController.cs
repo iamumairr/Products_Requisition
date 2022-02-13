@@ -21,15 +21,15 @@ namespace Project.Controllers
         }
         public IActionResult Index()
         {
-            var requests=new List<Request>();
+            var requests = new List<Request>();
 
             if (User.IsInRole(WC.AdminRole))
             {
-                requests = _context.Requests.Include(a=>a.Product).Include(a => a.ApplicationUser).ToList();
+                requests = _context.Requests.Include(a => a.Product).Include(a => a.ApplicationUser).ToList();
             }
-            else if(User.IsInRole(WC.CoordinatorRole))
+            else if (User.IsInRole(WC.CoordinatorRole))
             {
-                requests = _context.Requests.Where(a => a.ApplicationUser.Id != _userManager.GetUserId(User)).Include(a => a.Product).Include(a=>a.ApplicationUser).ToList();
+                requests = _context.Requests.Where(a => a.ApplicationUser.Id != _userManager.GetUserId(User)).Include(a => a.Product).Include(a => a.ApplicationUser).ToList();
             }
             else
             {
@@ -52,10 +52,10 @@ namespace Project.Controllers
             }
             Request request = new Request()
             {
-                Product=product,
-                ProductId=product.ProductId,
-                ApplicationUser =await _userManager.GetUserAsync(HttpContext.User),
-                ApplicationUserId =_userManager.GetUserId(User)
+                Product = product,
+                ProductId = product.ProductId,
+                ApplicationUser = await _userManager.GetUserAsync(HttpContext.User),
+                ApplicationUserId = _userManager.GetUserId(User)
             };
             return View(request);
         }
@@ -124,7 +124,7 @@ namespace Project.Controllers
                 return RedirectToAction("Index");
             }
             var prod = _context.Products.FirstOrDefault(a => a.ProductId == rvm.ProductId);
-            
+
             Request request = new Request()
             {
                 ProductId = prod.ProductId
@@ -132,14 +132,14 @@ namespace Project.Controllers
             return View(request);
         }
         [HttpGet]
-        [Authorize(Roles ="Admin,Coordinator")]
+        [Authorize(Roles = "Admin,Coordinator")]
         public IActionResult UpdateStatus(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var request = _context.Requests.FirstOrDefault(a=>a.RequestId==id);
+            var request = _context.Requests.FirstOrDefault(a => a.RequestId == id);
             if (request == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace Project.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateStatus(int id,Request request)
+        public IActionResult UpdateStatus(int id, Request request)
         {
             if (id != request.RequestId)
             {

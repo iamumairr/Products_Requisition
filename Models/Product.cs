@@ -14,10 +14,10 @@ namespace Project.Models
         [Required]
         public string Description { get; set; }
         [Required]
-        [Display(Name ="Stock Quantity")]
+        [Display(Name = "Stock Quantity")]
         public int StockQuantity { get; set; }
         [Required]
-        [Display(Name ="Unitary Amount")]
+        [Display(Name = "Unitary Amount")]
         public int UnitaryAmount { get; set; }
         [Required]
         public Level Level { get; set; }
@@ -32,6 +32,6 @@ namespace Project.Models
     }
     public enum Level
     {
-        Zero,One,Two
+        Zero, One, Two
     }
 }
